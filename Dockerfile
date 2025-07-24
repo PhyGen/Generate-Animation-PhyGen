@@ -1,11 +1,12 @@
-FROM python:3.11
+FROM python:3.10-slim
 
-RUN apt-get update && apt-get install -y ffmpeg
+WORKDIR /code
 
-WORKDIR /app
-COPY . /app
+COPY requirements.txt .
 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install --no-cache-dir --use-feature=fast-deps -r requirements.txt
+
+COPY . .
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "10000"]
