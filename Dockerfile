@@ -2,8 +2,16 @@ FROM python:3.10-slim
 
 WORKDIR /code
 
-# Cài git và các công cụ cần thiết để build
-RUN apt-get update && apt-get install -y git build-essential && rm -rf /var/lib/apt/lists/*
+# Cài các thư viện hệ thống cần thiết cho pycairo, manim, pix2text
+RUN apt-get update && apt-get install -y \
+    git \
+    build-essential \
+    libcairo2-dev \
+    libpango1.0-dev \
+    ffmpeg \
+    pkg-config \
+    cmake \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 
