@@ -2,7 +2,7 @@ FROM python:3.10-slim
 
 WORKDIR /code
 
-# Cài các thư viện hệ thống cần thiết cho pycairo, manim, pix2text
+# Cài các thư viện hệ thống cần cho manim, pix2text, pycairo
 RUN apt-get update && apt-get install -y \
     git \
     build-essential \
@@ -15,8 +15,9 @@ RUN apt-get update && apt-get install -y \
 
 COPY requirements.txt .
 
+# Nâng pip và cài nhanh hơn với các tùy chọn tắt dependency resolver
 RUN pip install --upgrade pip setuptools wheel
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --no-build-isolation --prefer-binary -r requirements.txt
 
 COPY . .
 
